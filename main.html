@@ -1,0 +1,98 @@
+<style>
+	body{
+		background: black;
+	}
+</style>
+
+<script src="gameClass.js"></script>
+<script src="tetromino.js"></script>
+<script src="gameFunctions.js"></script>
+
+<script>
+		
+
+	var canvas = document.createElement("canvas")
+	canvas.style = "position: absolute; margin: auto; background: black; border: 2px solid white"
+	var context = canvas.getContext('2d')
+
+
+	window.onload = ()=>{
+		document.body.appendChild(canvas)
+		
+		game.init()
+		
+		main()
+		setInterval(drop_pieces, 150)
+	}
+
+	const game = new Game({
+		width: 300, height: 600,
+		scale: 30,
+		tiles_width: 10, tiles_height: 20,
+		offset:{
+			x: 0,
+			y: 0
+		},
+	})
+	gen_piece()
+
+
+
+	function main(){
+		window.requestAnimationFrame(main)
+
+
+		if (game.end) return
+
+		context.clearRect(0,0,canvas.width, canvas.height)
+		game.render_grid()
+
+		game.pieces.forEach((piece)=>{render_piece(piece)})
+			
+		if (get_lowest_piece()+game.current_piece.position.y>=game.tiles_height-1 || check_collision()){
+			var search_piece = game.current_piece
+			
+			gen_piece()
+			clear_lines()
+
+			search_loss(search_piece)
+		} 
+	}
+
+	document.addEventListener("keyup", (e)=>{
+
+		switch (e.keyCode){
+			case 38:
+				if (game.current_piece!=null){
+					if (get_lowest_piece()+game.current_piece.position.y<game.tiles_height-1) rotate(game.current_piece)
+				}
+			break;
+			case 32:
+				while (get_lowest_piece()+game.current_piece.position.y<game.tiles_height-1 && !check_collision()){
+					game.current_piece.position.y++
+				}
+			break;
+		}
+
+	})
+
+	document.addEventListener("keydown", (e)=>{
+		switch (e.keyCode){
+			case 37:
+				if (game.current_piece!=null){
+					if (get_lowest_piece()+game.current_piece.position.y<game.tiles_height-1) move("x", -1)
+				}
+			break	
+			case 39:
+				if (game.current_piece!=null){
+					if (get_lowest_piece()+game.current_piece.position.y<game.tiles_height-1) move("x", 1)	
+				}
+			break;
+			case 40:
+				move("y", 0)
+			break;
+		}
+	})
+
+
+</script>
