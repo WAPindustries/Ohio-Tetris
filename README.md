@@ -1,6 +1,6 @@
 # Ohio-Tetris
 
-k imma be real with u guys in the 2 days i spent coding thismy brain hemorrhaged like 25 fucking times
+k imma be real with u guys in the 2 days i spent coding this my brain hemorrhaged like 25 fucking times
 
 the code is fucking garbage cuz im a dipshit and cldnt be fucked optimising this shit
 
